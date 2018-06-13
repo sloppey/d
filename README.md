@@ -24,10 +24,10 @@ stops roblox from uploading your logs and reduces chances of getting banned
 
  void InitUploadCheckHook(){
 	 DWORD o;
-	 VirtualProtect((LPVOID)&MessageBoxA, 0x05, PAGE_EXECUTE_READWRITE, &o);
+	 VirtualProtect((LPVOID)&MessageBoxA, 1, PAGE_EXECUTE_READWRITE, &o);
 	 *(char*)(&MessageBoxA) = 0xE9;
 	 *(DWORD*)((DWORD)&MessageBoxA + 1) = ((DWORD)&h_MessageBox - (DWORD)&MessageBoxA) - 5;
-	 VirtualProtect((LPVOID)&MessageBoxA, 0x05, o, &o);
+	 VirtualProtect((LPVOID)&MessageBoxA, 1, o, &o);
  }
 
 
