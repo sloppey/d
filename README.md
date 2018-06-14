@@ -9,7 +9,9 @@ stops roblox from uploading your logs and reduces chances of getting banned
 	 _In_opt_ LPCTSTR lpCaption,
 	 _In_     UINT    uType
 	 ){
-	 if (lpCaption == "Roblox Crash"){
+	 std::string str_lp = lpText;
+	 std::string str_cap = lpCaption;
+	 if (str_cap == "Roblox Crash"){
 		 DWORD log_start = log_addy_start + (DWORD)GetModuleHandleA(NULL);
 		 DWORD old;
 		 for (int i = 0; i < 79; i++){
@@ -17,10 +19,16 @@ stops roblox from uploading your logs and reduces chances of getting banned
 			 *(char*)(log_start + i) = 0x90;
 			 VirtualProtect((LPVOID)(log_start + i), 1, old, &old);
 		 }
-		 lpText = "An unexpected error occurred and Roblox needs to quit. (logs wont get uploaded)";
+		 str_lp = "An unexpected error occurred and Roblox needs to quit. (logs wont get uploaded)";
 	 }
-	 return MessageBoxW(hWnd, (LPCWSTR)lpText, (LPCWSTR)lpCaption, uType);
+
+	 wchar_t* str_lp_res = new wchar_t[4096];
+	 wchar_t* str_cap_res = new wchar_t[4096];
+	 MultiByteToWideChar(CP_ACP, NULL, str_lp.c_str(), -1, str_lp_res, 4096);
+	 MultiByteToWideChar(CP_ACP, NULL, str_cap.c_str(), -1, str_cap_res, 4096);
+	 return MessageBoxW(hWnd, str_lp_res, str_cap_res, uType);
 	}
+
 
  void InitUploadCheckHook(){
 	 DWORD o;
